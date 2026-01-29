@@ -1,0 +1,49 @@
+[debug] [2026-01-29T14:25:30.338Z] ----------------------------------------------------------------------
+[debug] [2026-01-29T14:25:30.340Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Cassio\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2026-01-29T14:25:30.340Z] CLI Version:   15.4.0
+[debug] [2026-01-29T14:25:30.340Z] Platform:      win32
+[debug] [2026-01-29T14:25:30.340Z] Node Version:  v24.13.0
+[debug] [2026-01-29T14:25:30.340Z] Time:          Thu Jan 29 2026 11:25:30 GMT-0300 (Horário Padrão de Brasília)
+[debug] [2026-01-29T14:25:30.340Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\Projeto Spoonlab\spoonlab---arquitetura-de-negócios-ia (1)
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2026-01-29T14:26:05.487Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-29T14:26:05.487Z] > authorizing via signed-in user (monteirocassiodev@gmail.com)
+[debug] [2026-01-29T14:26:05.488Z] Checked if tokens are valid: true, expires at: 1769698346148
+[debug] [2026-01-29T14:26:05.488Z] Checked if tokens are valid: true, expires at: 1769698346148
+[debug] [2026-01-29T14:26:05.489Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/spoonlab-f072a [none]
+[debug] [2026-01-29T14:26:05.905Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/spoonlab-f072a 200
+[debug] [2026-01-29T14:26:05.905Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/spoonlab-f072a {"projectId":"spoonlab-f072a","projectNumber":"152808360029","displayName":"Spoonlab","name":"projects/spoonlab-f072a","resources":{"hostingSite":"spoonlab-f072a"},"state":"ACTIVE","etag":"1_b8ca55cd-4d1f-4de1-b408-d31b1bf6d792"}
+[info] i  Using project spoonlab-f072a (Spoonlab) . 
+[info] 
+=== Hosting Setup
+[debug] [2026-01-29T14:26:05.910Z] Checked if tokens are valid: true, expires at: 1769698346148
+[debug] [2026-01-29T14:26:05.910Z] Checked if tokens are valid: true, expires at: 1769698346148
+[debug] [2026-01-29T14:26:05.910Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/spoonlab-f072a [none]
+[debug] [2026-01-29T14:26:06.223Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/spoonlab-f072a 200
+[debug] [2026-01-29T14:26:06.223Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/spoonlab-f072a {"projectId":"spoonlab-f072a","projectNumber":"152808360029","displayName":"Spoonlab","name":"projects/spoonlab-f072a","resources":{"hostingSite":"spoonlab-f072a"},"state":"ACTIVE","etag":"1_b8ca55cd-4d1f-4de1-b408-d31b1bf6d792"}
+[info] 
+[info] Your public directory is the folder (relative to your project directory) that
+[info] will contain Hosting assets to be uploaded with firebase deploy. If you
+[info] have a build process for your assets, use your build's output directory.
+[info] 
