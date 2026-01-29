@@ -1,14 +1,14 @@
-
 import React, { useState, useRef, useEffect } from 'react';
-import { OrgNode, AppState, AnalysisReport, DossierRequest, ScheduledMeeting } from './types';
-import { NodeEditor } from './components/NodeEditor';
-import { AnalysisView } from './components/AnalysisView';
-import { LandingPage } from './components/LandingPage';
-import { PricingPage } from './components/PricingPage';
-import { FastBuildInput } from './components/FastBuildInput';
-import { AdminDashboard } from './components/AdminDashboard';
-import { analyzeOrgChartStream } from './services/geminiService';
-import { Sparkles, Layers, RefreshCw, ChevronDown, Loader2, ShieldCheck, Settings, Lock, Unlock, LayoutGrid, CreditCard, CheckCircle } from 'lucide-react';
+import { OrgNode, AppState, AnalysisReport, DossierRequest } from './types.ts';
+import { NodeEditor } from './components/NodeEditor.tsx';
+import { AnalysisView } from './components/AnalysisView.tsx';
+import { LandingPage } from './components/LandingPage.tsx';
+import { PricingPage } from './components/PricingPage.tsx';
+import { FastBuildInput } from './components/FastBuildInput.tsx';
+import { AdminDashboard } from './components/AdminDashboard.tsx';
+import { ProcessingView } from './components/ProcessingView.tsx';
+import { analyzeOrgChartStream } from './services/geminiService.ts';
+import { Sparkles, Layers, RefreshCw, ChevronDown, Settings, LayoutGrid, CheckCircle, Lock } from 'lucide-react';
 
 const INITIAL_NODE: OrgNode = {
   id: 'root-ceo',
@@ -20,10 +20,8 @@ const INITIAL_NODE: OrgNode = {
   isUserPosition: false
 };
 
-// --- CONFIGURAÇÕES DE PRODUÇÃO ---
 const KIWIFY_CHECKOUT_URL = "https://pay.kiwify.com.br/Cntap1b";
 const KIWIFY_SECRET_TOKEN = "SPOON_SUCCESS_2025";
-// --------------------------------
 
 export default function App() {
   const [rootNode, setRootNode] = useState<OrgNode>(INITIAL_NODE);
@@ -44,7 +42,6 @@ export default function App() {
     if (status === 'success' && token === KIWIFY_SECRET_TOKEN) {
       setIsAutoUnlocked(true);
       localStorage.setItem('spoonlab_premium_unlocked', 'true');
-      
       const savedNode = localStorage.getItem('spoonlab_pending_node');
       if (savedNode) {
         try {
@@ -85,13 +82,16 @@ export default function App() {
     abortControllerRef.current = new AbortController();
     setIsStreaming(true);
     setReport({});
-    setTimeout(() => reportRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    
+    setTimeout(() => reportRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 500);
 
     try {
       const stream = analyzeOrgChartStream(rootNode, abortControllerRef.current.signal);
-      for await (const partial of stream) setReport(prev => ({ ...prev, ...partial }));
+      for await (const partial of stream) {
+        setReport(prev => ({ ...prev, ...partial }));
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Erro na análise:", err);
     } finally {
       setIsStreaming(false);
     }
@@ -121,8 +121,8 @@ export default function App() {
         </div>
         <div className="flex items-center gap-4">
           {isAutoUnlocked && (
-            <div className="flex items-center gap-2 bg-emerald-50 text-emerald-600 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-100 shadow-sm animate-in zoom-in">
-              <CheckCircle size={14} className="fill-emerald-500 text-white"/> Acesso Master Liberado
+            <div className="flex items-center gap-2 bg-emerald-50 text-emerald-600 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-100 shadow-sm">
+              <CheckCircle size={14} className="fill-emerald-500 text-white"/> Premium
             </div>
           )}
           <button onClick={() => setIsAdminMode(!isAdminMode)} className="p-2 text-gray-400 hover:text-gray-900 transition-all"><Settings size={18} /></button>
@@ -136,7 +136,7 @@ export default function App() {
           <section className="mb-12 flex items-end justify-between">
             <div className="max-w-2xl">
               <h1 className="text-4xl font-black text-gray-900 mb-2 tracking-tight">Arquitetura Organizacional</h1>
-              <p className="text-gray-500 text-base font-light">Mapeie sua estrutura. A IA encontrará as <b>chaves de crescimento</b> e ROI.</p>
+              <p className="text-gray-500 text-base font-light">Mapeie sua estrutura. A IA encontrará as <b>chaves de crescimento</b>.</p>
             </div>
             {!report && !isStreaming && <button onClick={() => { setRootNode(INITIAL_NODE); localStorage.removeItem('spoonlab_pending_node'); }} className="text-[9px] font-black text-gray-300 hover:text-red-500 uppercase flex items-center gap-2"><RefreshCw size={12} /> Resetar</button>}
           </section>
@@ -144,14 +144,14 @@ export default function App() {
           <FastBuildInput onGenerated={setRootNode} />
 
           <div className="relative">
-             {report && !isAutoUnlocked && (
-               <div className="absolute inset-0 z-[40] bg-white/60 backdrop-blur-[4px] rounded-[3rem] flex items-center justify-center flex-col animate-in fade-in duration-500">
+             {report && !isStreaming && !isAutoUnlocked && (
+               <div className="absolute inset-0 z-[40] bg-white/60 backdrop-blur-[4px] rounded-[3rem] flex items-center justify-center flex-col">
                  <div className="bg-white p-10 rounded-[3rem] shadow-2xl border border-gray-100 flex flex-col items-center text-center max-w-sm">
-                    <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
+                    <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
                       <Lock size={28} />
                     </div>
                     <h4 className="text-lg font-black text-gray-900 mb-2">Relatório Bloqueado</h4>
-                    <p className="text-xs text-gray-500 mb-8 font-medium leading-relaxed">Sua estrutura foi analisada, mas o Dossiê de 30 páginas exige a licença Blueprint Master.</p>
+                    <p className="text-xs text-gray-500 mb-8 font-medium">Sua estrutura foi analisada. O Dossiê exige a licença Blueprint Master.</p>
                     <div className="flex flex-col w-full gap-3">
                       <button onClick={() => window.open(KIWIFY_CHECKOUT_URL, '_blank')} className="bg-blue-600 text-white w-full py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 shadow-xl transition-all">Desbloquear Agora</button>
                       <button onClick={() => { setReport(null); setIsStreaming(false); }} className="text-[9px] font-black text-gray-400 uppercase tracking-widest hover:text-gray-900 py-2">Voltar e Editar</button>
@@ -160,7 +160,7 @@ export default function App() {
                </div>
              )}
              
-             <div id="canvas-section" className="bg-white border border-gray-100 rounded-[2.5rem] min-h-[500px] shadow-sm mb-20 overflow-auto flex justify-center p-20" style={{ backgroundImage: `radial-gradient(#f3f4f6 1px, transparent 1px)`, backgroundSize: '30px 30px' }}>
+             <div id="canvas-section" className="org-canvas bg-white border border-gray-100 rounded-[2.5rem] min-h-[600px] shadow-sm mb-20 overflow-auto flex justify-center p-20">
                 <NodeEditor node={rootNode} onUpdate={setRootNode} isRoot={true} onAddParent={handleAddParent} onSetUserPosition={handleSetUserPosition} />
              </div>
           </div>
@@ -173,13 +173,19 @@ export default function App() {
             </div>
           )}
 
-          {report && (
+          {isStreaming && !report?.executiveSummary && (
+            <div className="py-20">
+              <ProcessingView onCancel={() => { abortControllerRef.current?.abort(); setIsStreaming(false); setReport(null); }} />
+            </div>
+          )}
+
+          {report && (report.executiveSummary || isStreaming) && (
             <div ref={reportRef} className="pt-20">
               <AnalysisView 
                 report={report as AnalysisReport} 
                 isStreaming={isStreaming} 
                 isAdmin={isAdminMode} 
-                onRefine={() => setReport(null)} 
+                onRefine={() => { setReport(null); setIsStreaming(false); }} 
                 onCreateRequest={handleCreateRequest} 
                 kiwifyUrl={KIWIFY_CHECKOUT_URL}
                 isAutoUnlocked={isAutoUnlocked}
