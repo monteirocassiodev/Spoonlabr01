@@ -1,4 +1,3 @@
-
 export interface KPI {
   name: string;
   currentValue: number;
@@ -28,72 +27,35 @@ export interface ProposedOrgNode {
   children: ProposedOrgNode[];
 }
 
-export interface AIAgent {
-  name: string;
-  description: string;
-  replacedTasks: string[];
-  efficiencyGain: string;
-  recommendedStack: {
-    tool: string;
-    url?: string;
-    category?: string;
-  }[];
-}
-
-export interface DossierSection {
-  title: string;
-  content: string;
-  subtopics?: { title: string; text: string }[];
+export interface Transaction {
+  id: string;
+  timestamp: number;
+  amount: number;
+  method: 'KIWIFY';
+  status: 'COMPLETED';
 }
 
 export interface AnalysisReport {
   executiveSummary: string;
-  agentCritique?: string;
-  currentBottlenecks: string[];
-  aiFirstVision: string;
-  suggestedAgents: AIAgent[];
-  proposedOrgChart: ProposedOrgNode;
-  newWorkflowDescription: string;
-  roiEstimate: string;
-  careerInnovationStrategy: string;
-  userSpecificStrategy?: string;
-  fullDossier?: {
-    financialAnalysis: DossierSection;
-    operationalRoadmap: DossierSection;
-    toolStack: DossierSection;
-    riskAssessment: DossierSection;
-  };
   crownGems: {
     title: string;
     description: string;
     impact: string;
   }[];
-}
-
-export interface ScheduledMeeting {
-  id: string;
-  email: string;
-  subject: string;
-  timestamp: number;
-}
-
-export interface DossierRequest {
-  id: string;
-  accessCode: string;
-  timestamp: number;
-  userName: string;
-  userEmail: string;
-  companyName: string;
-  report: Partial<AnalysisReport>;
-  receiptImage?: string;
-  status: 'PENDING_PAYMENT' | 'AWAITING_APPROVAL' | 'APPROVED';
+  userSpecificStrategy?: string;
+  proposedOrgChart: ProposedOrgNode;
+  fullDossier?: {
+    financialAnalysis: { title: string; content: string; subtopics?: any[] };
+    operationalRoadmap: { title: string; content: string; subtopics?: any[] };
+    toolStack: { title: string; content: string; subtopics?: any[] };
+    riskAssessment: { title: string; content: string; subtopics?: any[] };
+  };
 }
 
 export enum AppState {
   LANDING = 'LANDING',
   EDITING = 'EDITING',
   ANALYZING = 'ANALYZING',
-  VIEWING_REPORT = 'VIEWING_REPORT',
   PRICING = 'PRICING',
   ADMIN_PANEL = 'ADMIN_PANEL'
 }
